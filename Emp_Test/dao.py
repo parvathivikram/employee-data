@@ -97,6 +97,24 @@ def db_insert(*args):
     
     return {"message":f"{firstname} {lastname} user created successfully."}
     
+def user_credentials(u_id, u_password):
+    with DataAccessObject("localhost", "postgres", "postgres", "12345678", 5432) as cursor:
+        cursor.execute("SELECT * FROM employee where eid={} AND password='{}'".format(u_id, u_password))
+        data = cursor.fetchone()
+    if data == None:
+        return False
+    return True
+
+def update_password(u_id, u_password):
+    with DataAccessObject("localhost", "postgres", "postgres", "12345678", 5432) as cursor:
+        cursor.execute(f"UPDATE employee SET password = '{u_password}' WHERE eid = {u_id};")
+    return {"message": "user password update successfully"}
+
+def delete_user(e_id):
+    with DataAccessObject("localhost", "postgres", "postgres", "12345678", 5432) as cursor:
+        cursor.execute(f"DELETE FROM employee WHERE eid={e_id};")
+    return {"message":"user delete successfully."}
+    
 
 
 if __name__ == "__main__":

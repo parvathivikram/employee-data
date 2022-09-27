@@ -1,6 +1,6 @@
 from flask import Flask, request
 from dao import DataAccessObject
-from service import check_user, add_user
+from service import check_user, add_user, check_user_credential, update_user_password, delete_employee
 
 app = Flask(__name__)
 
@@ -45,6 +45,39 @@ def esignup():
     resp = add_user(data['firstname'], data['lastname'], data['eid'], data['userid'], data['password'], data['mobileno'], data['emailid'], data['dob'], data['address'], data['gender'], data['doj'], data['technology'])
 
     return resp
+
+@app.route("/signin/", methods=['POST'])
+def esignin():
+    data = request.get_json()
+    print("data signin: ", data)
+    resp = check_user_credential(data['eid'], data['password'])
+    if resp:
+        return {"message": "User loged in successfully."}
+    return {"message": "eid and password are not match, Please check your credentials."}
+
+@app.route('/update_password/', methods=['PUT'])
+def update_pass():
+    data = request.get_json()
+    print("data for modification: ", data)
+    resp = check_user_credential(data['eid'], data['old_password'])
+    if resp:
+        update_password = update_user_password(data['eid'], data['new_password'])
+        return update_password
+    return {"message":"eid and password are not match, Please check your credentials."}
+
+@app.route('/delete_emp/', methods=['DELETE'])
+def delete_emp():
+    data = request.get_json()
+    print("data for modification: ", data)
+    resp = check_user_credential(data['eid'], data['password'])
+    if resp:
+        delete_user = delete_employee(data['eid'])
+        return delete_user
+    return {"message":"eid and password are not match, Please check your credentials."}
+
+
+
+
 
 
 if __name__ == '__main__':

@@ -39,8 +39,29 @@ Payload         : {json format}
       
 
 2. Signin  RETRIEVE
+
+API Call:
+--------------
+Request URL     : http://127.0.0.1:5000/esignin
+Request Method  : POST
+Payload         : {json format}
+
+
 3. Update Password   UPDATE
+
+API Call:
+--------------
+Request URL     : http://127.0.0.1:5000/update
+Request Method  : PUT
+Payload         : {json format}
+
 4. Deactivate account DELETE
+
+API Call:
+--------------
+Request URL     : http://127.0.0.1:5000/delete
+Request Method  : DELETE
+Payload         : {json format}
 
 
 
